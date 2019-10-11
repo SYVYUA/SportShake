@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     //получаем обновлённые данные
@@ -91,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onShake(){
         Log.d(TAG, "SHAKE");
         startRun.setVisibility(View.VISIBLE);
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
     }
 
     /* слушатель для событий перемещения устройства в пространстве*/
@@ -105,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
             accel = (float) Math.sqrt((double) (x * x + y * y + z * z));
             if (accel - accelPrevious > SHAKE_SENSITIVITY) {
                 onShake();
-                mChronometer.setBase(SystemClock.elapsedRealtime());
-                mChronometer.start();
+
                 }
             }
 
