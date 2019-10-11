@@ -8,17 +8,22 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "ShakeBaby";
 
+    private Chronometer mChronometer;
+
     //чуствительность датчика
     private static final int SHAKE_SENSITIVITY = 1;
-
 
     private TextView startRun, finishRun, calmPosition;
 
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mChronometer = findViewById(R.id.mChronometer);
+
         startRun = findViewById(R.id.startRun);
         finishRun = findViewById(R.id.finishRun);
         calmPosition = findViewById(R.id.calmPosition);
@@ -43,6 +50,21 @@ public class MainActivity extends AppCompatActivity {
                 sensorListener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+
+
+
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long elapsedMillis = SystemClock.elapsedRealtime()
+                        - mChronometer.getBase();
+
+                if (elapsedMillis > 10000) {
+                    finishRun.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
     }
 
@@ -55,12 +77,14 @@ public class MainActivity extends AppCompatActivity {
                 sensorListener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     // остановливаем получение данных
     @Override
     protected void onStop() {
         sensorManager.unregisterListener(sensorListener);
+        mChronometer.stop();
         super.onStop();
     }
 
@@ -68,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "SHAKE");
         startRun.setVisibility(View.VISIBLE);
     }
-
-
 
     /* слушатель для событий перемещения устройства в пространстве*/
     private final SensorEventListener sensorListener = new SensorEventListener() {
@@ -83,8 +105,10 @@ public class MainActivity extends AppCompatActivity {
             accel = (float) Math.sqrt((double) (x * x + y * y + z * z));
             if (accel - accelPrevious > SHAKE_SENSITIVITY) {
                 onShake();
+                mChronometer.setBase(SystemClock.elapsedRealtime());
+                mChronometer.start();
+                }
             }
-        }
 
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }

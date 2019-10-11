@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+<Chronometer
+    android:id="@+id/mChronometer"
+    android:layout_above="@+id/calmPosition"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:layout_width="50dp"
+    android:layout_height="50dp">
+
+</Chronometer>
 
     <TextView
         android:id="@+id/calmPosition"
@@ -14,7 +23,7 @@
         android:text="@string/calmPosition"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/startRun"
@@ -27,6 +36,7 @@
 
     <TextView
         android:id="@+id/finishRun"
+        android:layout_below="@+id/calmPosition"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
