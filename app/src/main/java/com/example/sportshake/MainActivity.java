@@ -87,11 +87,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onShake(){
         Log.d(TAG, "SHAKE");
         startRun.setVisibility(View.VISIBLE);
-        int a = 1;
-        if(a == 1) {
-            mChronometer.setBase(SystemClock.elapsedRealtime());
-            mChronometer.start();
-        }
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
         //mChronometer.setBase(mChronometer.getBase() + SystemClock.elapsedRealtime() - lastPause);
     }
 
