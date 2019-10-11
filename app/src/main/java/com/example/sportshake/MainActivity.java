@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         sensorManager.unregisterListener(sensorListener);
         super.onStop();
-
     }
 
     protected void onShake(){
