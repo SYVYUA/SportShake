@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 long elapsedMillis = SystemClock.elapsedRealtime()
                         - mChronometer.getBase();
-
                 if (elapsedMillis > 10000) {
                     finishRun.setVisibility(View.VISIBLE);
                 }
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 sensorListener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
-
     }
 
     // остановливаем получение данных
@@ -89,8 +87,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onShake(){
         Log.d(TAG, "SHAKE");
         startRun.setVisibility(View.VISIBLE);
-        mChronometer.setBase(SystemClock.elapsedRealtime());
-        mChronometer.start();
+        int a = 1;
+        if(a == 1) {
+            mChronometer.setBase(SystemClock.elapsedRealtime());
+            mChronometer.start();
+        }
+        //mChronometer.setBase(mChronometer.getBase() + SystemClock.elapsedRealtime() - lastPause);
     }
 
     /* слушатель для событий перемещения устройства в пространстве*/
@@ -105,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             accel = (float) Math.sqrt((double) (x * x + y * y + z * z));
             if (accel - accelPrevious > SHAKE_SENSITIVITY) {
                 onShake();
-
                 }
             }
 
